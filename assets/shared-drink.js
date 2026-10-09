@@ -6,6 +6,11 @@
   var ALPHABET = "0123456789bcdfghjklmnpqrstvwxyz";
   var LENGTH = 8;
   var SECTIONS = ["loading", "drink", "gone", "offline", "missing"];
+  var REPORT_URL = "https://github.com/theroadeldorado/theroadeldorado.github.io/issues/new";
+  var REPORT_TITLE = "Report shared drink ";
+  var REPORT_BODY = "Shared drink: {link}\n\nWhat's wrong with it? (Spam, offensive, personal details, something else.)\n";
+  var LINK_MARK = "{link}";
+  var ORIGIN = "https://theroadeldorado.github.io";
   function show(id) {
     SECTIONS.forEach(function (name) { document.getElementById(name).hidden = name !== id; });
   }
@@ -27,6 +32,19 @@
       list.appendChild(item);
     });
   }
+  // The same issue the app's "Report this drink" opens (DranksLink.reportURL).
+  function reportURL(code) {
+    var link = ORIGIN + "/d/c/" + code;
+    return REPORT_URL + "?title=" + encodeURIComponent(REPORT_TITLE + code) +
+      "&body=" + encodeURIComponent(REPORT_BODY.split(LINK_MARK).join(link));
+  }
+  // The takedown list (/blocked.json). If it can't be read, the drink still shows (it fails open).
+  function blockedCodes() {
+    if (typeof fetch !== "function") { return Promise.resolve([]); }
+    return fetch("/blocked.json", { cache: "no-store" })
+      .then(function (response) { return response.ok ? response.json() : []; })
+      .then(function (list) { return Array.isArray(list) ? list : []; }, function () { return []; });
+  }
   function render(name, ingredients, steps) {
     document.getElementById("name").textContent = name;
     document.title = name + " · Dranks";
@@ -40,6 +58,13 @@
   var code = match[1].toLowerCase();
   var valid = code.length === LENGTH && code.split("").every(function (ch) { return ALPHABET.indexOf(ch) >= 0; });
   if (!valid) { show("gone"); return; }
+  document.getElementById("report").href = reportURL(code);
+  blockedCodes().then(function (blocked) {
+    if (blocked.indexOf(code) >= 0) { show("gone"); return; }
+    load(code);
+  });
+
+  function load(code) {
   if (typeof CloudKit === "undefined" || !window.DRANKS) { show("offline"); return; }
   try {
     CloudKit.configure({ containers: [{
@@ -65,4 +90,5 @@
            strings(fields.ingredientLines, 12),
            strings(fields.stepLines, 30));
   }, function () { show("offline"); });
+  }
 })();

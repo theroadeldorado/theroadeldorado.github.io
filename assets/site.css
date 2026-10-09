@@ -19,7 +19,9 @@ li::marker { color:var(--teal); font-weight:700; }
 .card { display:block; width:100%; max-width:368px; height:auto; margin:8px 0 12px; }
 .store { display:inline-block; margin:32px 0 8px; padding:12px 24px; min-height:44px; border:2px solid var(--ink); border-radius:999px; background:var(--mustard); color:var(--ink); font-weight:800; text-decoration:none; box-shadow:0 4px 0 var(--ink); }
 .store:active { transform:translateY(4px); box-shadow:none; }
-.open, .note { color:var(--cocoa); font-size:15px; }
+.open, .note, .report { color:var(--cocoa); font-size:15px; }
+.report a { color:var(--cocoa); display:inline-block; padding:12px 0; }
+.cta { font-weight:800; margin:8px 0 0; }
 .links { list-style:none; padding:0; display:flex; flex-wrap:wrap; gap:8px 24px; }
 footer { max-width:680px; margin:0 auto; padding:24px 16px 48px; font-size:14px; color:var(--cocoa); }
 footer a { display:inline-block; padding:12px 0; }
