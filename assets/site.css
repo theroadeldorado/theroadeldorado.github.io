@@ -23,6 +23,9 @@ li::marker { color:var(--teal); font-weight:700; }
 .report a { color:var(--cocoa); display:inline-block; padding:12px 0; }
 .cta { font-weight:800; margin:8px 0 0; }
 .links { list-style:none; padding:0; display:flex; flex-wrap:wrap; gap:8px 24px; }
+.index { list-style:none; padding:0; columns:2 200px; column-gap:24px; }
+.index li { margin:0; break-inside:avoid; }
+.index a { display:inline-block; padding:6px 0; }
 footer { max-width:680px; margin:0 auto; padding:24px 16px 48px; font-size:14px; color:var(--cocoa); }
 footer a { display:inline-block; padding:12px 0; }
 [hidden] { display:none !important; }

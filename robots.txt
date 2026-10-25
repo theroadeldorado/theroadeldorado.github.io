@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://theroadeldorado.github.io/sitemap.xml
